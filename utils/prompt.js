@@ -50,7 +50,7 @@ const menuPrompt = () => {
                     addDept();
                     break;
                 case `Add a role`:
-                    console.log(result.action)
+                    addRole();
                     break;
                 case `Add an employee`:
                     console.log(result.action)
@@ -102,6 +102,20 @@ const addDept = () => {
 
 
 const addRole = () => {
+    const deptArray = {
+        id: [],
+        name: []
+    }
+
+    const deptIdArray = deptArray.id
+    const deptnameArray = deptArray.name
+
+    db.query('SELECT * FROM department',(err,results) =>{
+        results.forEach(result => {
+            deptIdArray.push(result.id)
+            deptnameArray.push(result.name)
+        });
+    })
     const addRolePrompt = [
         {
             type: `input`,
@@ -114,13 +128,18 @@ const addRole = () => {
             message: `Salary for the role?`
         },
         {
-            type: `input`,
+            type: `list`,
             name: `roleDept`,
-            message: `Department for the role?`
+            choices: deptnameArray
         }
     ]   
 
-    inquirer.prompt(addDepartmentPrompt)
+    inquirer.prompt(addRolePrompt)
+        .then((data) => {
+            let role = data.roleName;
+            let salary = data.salary;
+            let department = data.roleDept;
+        })
 
 }
 
