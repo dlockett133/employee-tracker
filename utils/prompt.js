@@ -167,6 +167,12 @@ const addEmployee = () => {
     const roleIdArray = roleArrays.id;
     const roleTitleArray = roleArrays.title;
 
+    db.query('SELECT id, title FROM role', (err,results) => {
+        results.forEach(result => {
+            roleIdArray.push(result.id);
+            roleTitleArray.push(result.title);
+        });
+    })
     const addEmployeePrompt = [
         {
             type: `input`,
@@ -246,7 +252,7 @@ const menuPrompt = () => {
                     addRole();
                     break;
                 case `Add an employee`:
-                    console.log(result.action)
+                    addEmployee();
                     break;
                 case `Update an employee role`:
                     console.log(result.action)
