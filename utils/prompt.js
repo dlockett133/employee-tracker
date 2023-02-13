@@ -185,9 +185,9 @@ const addEmployee = () => {
             message: `Last name?`
         },
         {
-            type: `input`,
+            type: `list`,
             name: `employeeRole`,
-            message: `Employee's role?`
+            choices: roleTitleArray
         }, 
         {
             type: `input`,
@@ -195,6 +195,12 @@ const addEmployee = () => {
             message: `Employee's manager?`
         }
     ]
+
+    inquirer
+    .prompt(addEmployeePrompt)
+    .then((data) => {
+        console.table(data)
+    })
 }
 
 const updateEmployee = () => {
