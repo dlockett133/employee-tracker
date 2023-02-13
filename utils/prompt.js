@@ -177,7 +177,7 @@ const addEmployee = () => {
 
     const managerArrays = {
         id:[],
-        name:[]
+        name:["None"]
     }
 
     const managerIdArray = managerArrays.id;
@@ -189,6 +189,15 @@ const addEmployee = () => {
             roleTitleArray.push(result.title);
         });
     })
+
+    db.query('SELECT first_name, last_name, id FROM employee WHERE manager_id IS NULL', 
+        (err,results) => {
+            results.forEach(result => {
+            managerIdArray.push(result.id)
+            managerNameArray.push(result.first_name + " " + result.lastName)
+        });
+    })
+
     const addEmployeePrompt = [
         {
             type: `input`,
@@ -206,9 +215,9 @@ const addEmployee = () => {
             choices: roleTitleArray
         }, 
         {
-            type: `input`,
+            type: `list`,
             name: `employeeManager`,
-            message: `Employee's manager?`
+            choices: managerNameArray
         }
     ]
 
@@ -222,20 +231,36 @@ const addEmployee = () => {
         let roleId = roleIdArray[i]
         
         let x = managerNameArray.indexOf(data.employeeManager);
-        let managerId = managerIdArray[i]
+        let managerId = managerIdArray[i - 1]
 
-        db.query(
-            `INSERT INTO employee (first_name, last_name, role_id, manager_id) 
-            SELECT * FROM (SELECT ?, ?, ?, ?) AS tmp 
-            WHERE NOT EXISTS (
-            SELECT first_name, last_name, role_id, manager_id 
-            FROM employee 
-            WHERE first_name = ? 
-            AND last_name = ? 
-            AND role_id = ? 
-            AND manager_id = ?
-            ) LIMIT 1;
-        `,[firstName, lastName, roleId, managerId])
+        if (data.employeeManager === "None"){
+            db.query(
+                `INSERT INTO employee (first_name, last_name, role_id, manager_id) 
+                SELECT * FROM (SELECT ?, ?, ?, ?) AS tmp 
+                WHERE NOT EXISTS (
+                SELECT first_name, last_name, role_id, manager_id 
+                FROM employee 
+                WHERE first_name = ? 
+                AND last_name = ? 
+                AND role_id = ? 
+                AND manager_id = ?
+                ) LIMIT 1;
+            `,[firstName, lastName, roleId, null, firstName, lastName, roleId, null]
+            )    
+        } else {
+            db.query(
+                `INSERT INTO employee (first_name, last_name, role_id, manager_id) 
+                SELECT * FROM (SELECT ?, ?, ?, ?) AS tmp 
+                WHERE NOT EXISTS (
+                SELECT first_name, last_name, role_id, manager_id 
+                FROM employee 
+                WHERE first_name = ? 
+                AND last_name = ? 
+                AND role_id = ? 
+                AND manager_id = ?
+                ) LIMIT 1;
+                `,[firstName, lastName, roleId, managerId])
+            }
     })
 }
 
