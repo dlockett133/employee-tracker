@@ -153,7 +153,13 @@ const addRole = () => {
             let i = deptnameArray.indexOf(data.roleDept);
             let department_id = deptIdArray[i];
 
-            db.query(`INSERT INTO role (title, salary, department_id) VALUES (?,?,?)`, [role, salary, department_id])
+            db.query(
+                `INSERT INTO role (title, salary, department_id) 
+                SELECT * FROM (SELECT ?, ?, ?) AS tmp 
+                WHERE NOT EXISTS (
+                SELECT 1 FROM role 
+                WHERE LOWER(title) = LOWER(?)
+                ) LIMIT 1;`, [role, salary, department_id])
         })
 
 }
