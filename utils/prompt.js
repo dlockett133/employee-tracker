@@ -1,5 +1,7 @@
 const inquirer = require("inquirer");
 const mysql = require("mysql2");
+const cTable = require('console.table');
+
 
 const db = mysql.createConnection(
     {
@@ -36,7 +38,7 @@ const menu = () => {
             // console.log(result.action)
             switch (result.action) {
                 case `View all departments`:
-                    console.log(result.action)
+                    viewDept();
                     break;
                 case `View all roles`:
                     console.log(result.action)
@@ -66,6 +68,14 @@ const menu = () => {
             }
         })
 }    
+
+const viewDept = () => {
+    db.query(`SELECT id AS ID, name AS Department FROM department`, (err,results) => {
+        err ? console.log(err) : console.table(results);
+        menu();
+    })
+}
+
 
 const addDept = () => {
     const addDepartmentPrompt = [
@@ -154,6 +164,7 @@ const updateEmployee = () => {
 
 module.exports = {
     menu,
+    viewDept,
     addDept,
     addRole,
     addEmployee,
