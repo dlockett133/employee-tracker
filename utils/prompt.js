@@ -1,3 +1,5 @@
+const inquirer = require("inquirer")
+
 const menu = () => {
     const startPrompt = [
         {
@@ -17,6 +19,19 @@ const menu = () => {
         }
     ]  
     
+    inquirer
+        .prompt(startPrompt)
+        .then((result) => {
+            console.log(result.action)
+            // switch (result.action) {
+            //     case value:
+                    
+            //         break;
+            
+            //     default:
+            //         break;
+            // }
+        })
 }    
 
 const addDept = () => {
@@ -92,9 +107,9 @@ const updateEmployee = () => {
 
 
 module.exports = {
-    startQuestion: startQuestion,
-    addDepartment: addDepartment,
-    addRole: addRole,
-    addEmployee: addEmployee,
-    updateEmployee: updateEmployee
+    menu,
+    addDept,
+    addRole,
+    addEmployee,
+    updateEmployee
 }
