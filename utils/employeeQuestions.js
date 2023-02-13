@@ -10,7 +10,8 @@ const startQuestion = [
             `Add a department`, 
             `Add a role`, 
             `Add an employee`,
-            `Update an employee role`
+            `Update an employee role`,
+            `Quit`
         ]
     
     }
@@ -62,5 +63,17 @@ const addEmployee = [
         type: `input`,
         name: `employeeManager`,
         message: `Employee's manager?`
+    }
+]
+const updateEmployee = [
+    {
+        type: `list`,
+        name: `employee`,
+        choices: []
+    },
+    {
+        type: `input`,
+        name: `newRole`,
+        message: `Employee's role?`
     }
 ]
