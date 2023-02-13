@@ -77,3 +77,11 @@ const updateEmployee = [
         message: `Employee's role?`
     }
 ]
+
+module.exports = {
+    startQuestion: startQuestion,
+    addDepartment: addDepartment,
+    addRole: addRole,
+    addEmployee: addEmployee,
+    updateEmployee: updateEmployee
+}

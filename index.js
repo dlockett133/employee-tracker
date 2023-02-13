@@ -1,6 +1,8 @@
 const inquirer = require("inquirer");
 const mysql = require("mysql2");
 const cTable = require('console.table');
+const question = require('./utils/employeeQuestions')
+
 
 const db = mysql.createConnection(
     {
@@ -11,3 +13,7 @@ const db = mysql.createConnection(
     },
     console.log("connected to the database")
 );
+
+db.query(`SELECT * FROM department`, (err,results) => {
+    console.table(results)
+})
