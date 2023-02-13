@@ -171,9 +171,17 @@ const addEmployee = () => {
         id:[],
         title:[]
     }
-
+    
     const roleIdArray = roleArrays.id;
     const roleTitleArray = roleArrays.title;
+
+    const managerArrays = {
+        id:[],
+        name:[]
+    }
+
+    const managerIdArray = managerArrays.id;
+    const managerNameArray = managerArrays.name;
 
     db.query('SELECT id, title FROM role', (err,results) => {
         results.forEach(result => {
@@ -207,7 +215,14 @@ const addEmployee = () => {
     inquirer
     .prompt(addEmployeePrompt)
     .then((data) => {
-        console.table(data)
+        let firstName = data.firstName;
+        let lastName = data.lastName;
+
+        let i = roleTitleArray.indexOf(data.employeeRole);
+        let roleId = roleIdArray[i]
+        
+        let x = managerNameArray.indexOf(data.employeeManager);
+        let managerId = managerIdArray[i]
     })
 }
 
