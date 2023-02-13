@@ -159,8 +159,10 @@ const addRole = () => {
                 WHERE NOT EXISTS (
                 SELECT 1 FROM role 
                 WHERE LOWER(title) = LOWER(?)
-                ) LIMIT 1;`, [role, salary, department_id])
+                ) LIMIT 1;`, [role, salary, department_id, role])
+                menuPrompt();
         })
+        .catch(err => {console.log(err)});
 
 }
 
