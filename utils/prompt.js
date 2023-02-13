@@ -1,4 +1,15 @@
-const inquirer = require("inquirer")
+const inquirer = require("inquirer");
+const mysql = require("mysql2");
+
+const db = mysql.createConnection(
+    {
+    host: 'localhost',
+    user: 'root',
+    password: 'lupin1993',
+    database: 'employee_db'
+    },
+    console.log("connected to the database")
+);
 
 const menu = () => {
     const startPrompt = [
@@ -34,7 +45,7 @@ const menu = () => {
                     console.log(result.action)
                     break;
                 case `Add a department`:
-                    console.log(result.action)
+                    addDept();
                     break;
                 case `Add a role`:
                     console.log(result.action)
@@ -64,6 +75,15 @@ const addDept = () => {
             message: `Name of the department?`
         }
     ]
+
+    inquirer.prompt(addDepartmentPrompt)
+        .then((data) => {
+            db.query(
+                `INSERT INTO department (name) 
+                VALUES (?)`,[data.deptName]
+            )
+            menu();
+        })
 }
 
 
@@ -85,6 +105,9 @@ const addRole = () => {
             message: `Department for the role?`
         }
     ]   
+
+    inquirer.prompt(addDepartmentPrompt)
+
 }
 
 const addEmployee = () => {
