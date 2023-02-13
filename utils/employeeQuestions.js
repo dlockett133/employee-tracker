@@ -18,6 +18,26 @@ const startQuestion = [
 
 const addDepartment = [
     {
-        
+        type: `input`,
+        name: `deptName`,
+        message: `Name of the department?`
+    }
+]
+
+const addRole = [
+    {
+        type: `input`,
+        name: `roleName`,
+        message: `Name of the role?`
+    },
+    {
+        type: `number`,
+        name: `salary`,
+        message: `Salary for the role?`
+    },
+    {
+        type: `input`,
+        name: `roleDept`,
+        message: `Department for the role?`
     }
 ]
