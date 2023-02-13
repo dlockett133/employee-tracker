@@ -41,3 +41,26 @@ const addRole = [
         message: `Department for the role?`
     }
 ]
+
+const addEmployee = [
+    {
+        type: `input`,
+        name: `firstName`,
+        message: `First name?`
+    },
+    {
+        type: `input`,
+        name: `lastName`,
+        message: `Last name?`
+    },
+    {
+        type: `input`,
+        name: `employeeRole`,
+        message: `Employee's role?`
+    }, 
+    {
+        type: `input`,
+        name: `employeeManager`,
+        message: `Employee's manager?`
+    }
+]
