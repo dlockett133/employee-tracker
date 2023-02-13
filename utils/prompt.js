@@ -113,13 +113,13 @@ const addDept = () => {
 
 
 const addRole = () => {
-    const deptArray = {
+    const deptArrays = {
         id: [],
         name: []
     }
 
-    const deptIdArray = deptArray.id
-    const deptnameArray = deptArray.name
+    const deptIdArray = deptArrays.id
+    const deptnameArray = deptArrays.name
 
     db.query('SELECT * FROM department',(err,results) =>{
         results.forEach(result => {
@@ -159,6 +159,14 @@ const addRole = () => {
 }
 
 const addEmployee = () => {
+    const roleArrays = {
+        id:[],
+        title:[]
+    }
+
+    const roleIdArray = roleArrays.id;
+    const roleTitleArray = roleArrays.title;
+
     const addEmployeePrompt = [
         {
             type: `input`,
