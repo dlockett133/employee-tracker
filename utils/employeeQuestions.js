@@ -15,3 +15,9 @@ const startQuestion = [
     
     }
 ]
+
+const addDepartment = [
+    {
+        
+    }
+]
