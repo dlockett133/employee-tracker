@@ -84,6 +84,7 @@ const addDept = () => {
             )
             menu();
         })
+        .catch(err => {console.log(err)});
 }
 
 
