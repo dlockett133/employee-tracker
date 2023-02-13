@@ -13,61 +13,61 @@ const db = mysql.createConnection(
     console.log("connected to the database")
 );
 
-const menuPrompt = () => {
-    const startPrompt = [
-        {
-            type: `list`,
-            name: `action`,
-            message: `Would you like to:`,
-            choices: [
-                `View all departments`,
-                `View all roles`,
-                `View all employees`,
-                `Add a department`, 
-                `Add a role`, 
-                `Add an employee`,
-                `Update an employee role`,
-                `Quit`
-            ]
-        }
-    ]  
+// const menuPrompt = () => {
+//     const startPrompt = [
+//         {
+//             type: `list`,
+//             name: `action`,
+//             message: `Would you like to:`,
+//             choices: [
+//                 `View all departments`,
+//                 `View all roles`,
+//                 `View all employees`,
+//                 `Add a department`, 
+//                 `Add a role`, 
+//                 `Add an employee`,
+//                 `Update an employee role`,
+//                 `Quit`
+//             ]
+//         }
+//     ]  
     
-    inquirer
-        .prompt(startPrompt)
-        .then((result) => {
-            // console.log(result.action)
-            switch (result.action) {
-                case `View all departments`:
-                    viewDept();
-                    break;
-                case `View all roles`:
-                    viewRoles();
-                    break;
-                case `View all employees`:
-                    console.log(result.action)
-                    break;
-                case `Add a department`:
-                    addDept();
-                    break;
-                case `Add a role`:
-                    addRole();
-                    break;
-                case `Add an employee`:
-                    console.log(result.action)
-                    break;
-                case `Update an employee role`:
-                    console.log(result.action)
-                    break;
-                case `Quit`:
-                    console.log(result.action)
-                    break;
+//     inquirer
+//         .prompt(startPrompt)
+//         .then((result) => {
+//             // console.log(result.action)
+//             switch (result.action) {
+//                 case `View all departments`:
+//                     viewDept();
+//                     break;
+//                 case `View all roles`:
+//                     viewRoles();
+//                     break;
+//                 case `View all employees`:
+//                     console.log(result.action)
+//                     break;
+//                 case `Add a department`:
+//                     addDept();
+//                     break;
+//                 case `Add a role`:
+//                     addRole();
+//                     break;
+//                 case `Add an employee`:
+//                     console.log(result.action)
+//                     break;
+//                 case `Update an employee role`:
+//                     console.log(result.action)
+//                     break;
+//                 case `Quit`:
+//                     console.log(result.action)
+//                     break;
             
-                default:
-                    console.log("Invalid command")
-                    break;
-            }
-        })
-}    
+//                 default:
+//                     console.log("Invalid command")
+//                     break;
+//             }
+//         })
+// }    
 
 const viewDept = () => {
     db.query(`SELECT id AS ID, name AS Department FROM department`, (err,results) => {
@@ -198,6 +198,61 @@ const updateEmployee = () => {
     ]
 }
 
+const menuPrompt = () => {
+    const startPrompt = [
+        {
+            type: `list`,
+            name: `action`,
+            message: `Would you like to:`,
+            choices: [
+                `View all departments`,
+                `View all roles`,
+                `View all employees`,
+                `Add a department`, 
+                `Add a role`, 
+                `Add an employee`,
+                `Update an employee role`,
+                `Quit`
+            ]
+        }
+    ]  
+    
+    inquirer
+        .prompt(startPrompt)
+        .then((result) => {
+            // console.log(result.action)
+            switch (result.action) {
+                case `View all departments`:
+                    viewDept();
+                    break;
+                case `View all roles`:
+                    viewRoles();
+                    break;
+                case `View all employees`:
+                    console.log(result.action)
+                    break;
+                case `Add a department`:
+                    addDept();
+                    break;
+                case `Add a role`:
+                    addRole();
+                    break;
+                case `Add an employee`:
+                    console.log(result.action)
+                    break;
+                case `Update an employee role`:
+                    console.log(result.action)
+                    break;
+                case `Quit`:
+                    console.log(result.action)
+                    break;
+            
+                default:
+                    console.log("Invalid command")
+                    break;
+            }
+        })
+}   
 
 module.exports = {
     menuPrompt,
