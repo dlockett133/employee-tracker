@@ -41,7 +41,7 @@ const menuPrompt = () => {
                     viewDept();
                     break;
                 case `View all roles`:
-                    console.log(result.action)
+                    viewRoles();
                     break;
                 case `View all employees`:
                     console.log(result.action)
@@ -73,6 +73,17 @@ const viewDept = () => {
     db.query(`SELECT id AS ID, name AS Department FROM department`, (err,results) => {
         err ? console.log(err) : console.table(results);
         menuPrompt();
+    })
+}
+
+const viewRoles = () => {
+    db.query(`
+    SELECT role.title AS Title, role.id AS ID, department.name AS Department, role.salary AS Salary
+    FROM role
+    JOIN department
+    ON role.department_id = department.id;`, 
+    (err,results) => {err ? console.log(err) : console.table(results);
+    menuPrompt();
     })
 }
 
