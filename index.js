@@ -18,11 +18,13 @@ const db = mysql.createConnection(
 //     console.table(results)
 // })
 
-db.promise().query('SELECT * FROM department')
-  .then((results) => {
-    console.log(results);
-  })
+// db.promise().query('SELECT * FROM department')
+//   .then((results) => {
+//     console.log(results);
+//   })
 
 // inquirer
 //     .prompt(question.startQuestion)
 //     .then((result)=>{console.log(result)});
+
+prompt.menu();
