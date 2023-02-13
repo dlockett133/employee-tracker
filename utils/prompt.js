@@ -13,7 +13,7 @@ const db = mysql.createConnection(
     console.log("connected to the database")
 );
 
-const menu = () => {
+const menuPrompt = () => {
     const startPrompt = [
         {
             type: `list`,
@@ -72,7 +72,7 @@ const menu = () => {
 const viewDept = () => {
     db.query(`SELECT id AS ID, name AS Department FROM department`, (err,results) => {
         err ? console.log(err) : console.table(results);
-        menu();
+        menuPrompt();
     })
 }
 
@@ -90,9 +90,12 @@ const addDept = () => {
         .then((data) => {
             db.query(
                 `INSERT INTO department (name) 
-                VALUES (?)`,[data.deptName]
+                SELECT * FROM (SELECT ?) AS tmp 
+                WHERE NOT EXISTS (
+                    SELECT name FROM department WHERE LOWER(name) = LOWER(?)
+                ) LIMIT 1;`,[data.deptName, data.deptName]
             )
-            menu();
+            menuPrompt();
         })
         .catch(err => {console.log(err)});
 }
@@ -163,7 +166,7 @@ const updateEmployee = () => {
 
 
 module.exports = {
-    menu,
+    menuPrompt,
     viewDept,
     addDept,
     addRole,

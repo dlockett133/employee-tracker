@@ -27,4 +27,4 @@ const db = mysql.createConnection(
 //     .prompt(question.startQuestion)
 //     .then((result)=>{console.log(result)});
 
-prompt.menu();
+prompt.menuPrompt();
