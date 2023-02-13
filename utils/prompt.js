@@ -119,7 +119,7 @@ const addRole = () => {
     const addRolePrompt = [
         {
             type: `input`,
-            name: `roleName`,
+            name: `roleTitle`,
             message: `Name of the role?`
         },
         {
@@ -136,9 +136,13 @@ const addRole = () => {
 
     inquirer.prompt(addRolePrompt)
         .then((data) => {
-            let role = data.roleName;
+            let role = data.roleTitle;
             let salary = data.salary;
-            let department = data.roleDept;
+
+            let i = deptnameArray.indexOf(data.roleDept);
+            let department_id = deptIdArray[i];
+
+            db.query(`INSERT INTO role (title, salary, department_id) VALUES (?,?,?)`, [role, salary, department_id])
         })
 
 }
