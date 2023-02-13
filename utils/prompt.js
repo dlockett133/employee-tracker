@@ -1,4 +1,4 @@
-const startQuestion = [
+const startPrompt = [
     {
         type: `list`,
         name: `queryStart`,
