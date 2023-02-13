@@ -223,6 +223,19 @@ const addEmployee = () => {
         
         let x = managerNameArray.indexOf(data.employeeManager);
         let managerId = managerIdArray[i]
+
+        db.query(
+            `INSERT INTO employee (first_name, last_name, role_id, manager_id) 
+            SELECT * FROM (SELECT ?, ?, ?, ?) AS tmp 
+            WHERE NOT EXISTS (
+            SELECT first_name, last_name, role_id, manager_id 
+            FROM employee 
+            WHERE first_name = ? 
+            AND last_name = ? 
+            AND role_id = ? 
+            AND manager_id = ?
+            ) LIMIT 1;
+        `,[firstName, lastName, roleId, managerId])
     })
 }
 
