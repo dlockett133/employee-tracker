@@ -13,62 +13,6 @@ const db = mysql.createConnection(
     console.log("connected to the database")
 );
 
-// const menuPrompt = () => {
-//     const startPrompt = [
-//         {
-//             type: `list`,
-//             name: `action`,
-//             message: `Would you like to:`,
-//             choices: [
-//                 `View all departments`,
-//                 `View all roles`,
-//                 `View all employees`,
-//                 `Add a department`, 
-//                 `Add a role`, 
-//                 `Add an employee`,
-//                 `Update an employee role`,
-//                 `Quit`
-//             ]
-//         }
-//     ]  
-    
-//     inquirer
-//         .prompt(startPrompt)
-//         .then((result) => {
-//             // console.log(result.action)
-//             switch (result.action) {
-//                 case `View all departments`:
-//                     viewDept();
-//                     break;
-//                 case `View all roles`:
-//                     viewRoles();
-//                     break;
-//                 case `View all employees`:
-//                     console.log(result.action)
-//                     break;
-//                 case `Add a department`:
-//                     addDept();
-//                     break;
-//                 case `Add a role`:
-//                     addRole();
-//                     break;
-//                 case `Add an employee`:
-//                     console.log(result.action)
-//                     break;
-//                 case `Update an employee role`:
-//                     console.log(result.action)
-//                     break;
-//                 case `Quit`:
-//                     console.log(result.action)
-//                     break;
-            
-//                 default:
-//                     console.log("Invalid command")
-//                     break;
-//             }
-//         })
-// }    
-
 const viewDept = () => {
     db.query(`SELECT id AS ID, name AS Department FROM department`, (err,results) => {
         err ? console.log(err) : console.table(results);
@@ -156,6 +100,7 @@ const addRole = () => {
         {
             type: `list`,
             name: `roleDept`,
+            message: `Department of the role?`,
             choices: deptnameArray
         }
     ]   
@@ -227,11 +172,13 @@ const addEmployee = () => {
         {
             type: `list`,
             name: `employeeRole`,
+            message: `What's the employee's role?`,
             choices: roleTitleArray
         }, 
         {
             type: `list`,
             name: `employeeManager`,
+            message: `The employee's manager?`,
             choices: managerNameArray
         }
     ]
@@ -273,16 +220,43 @@ const addEmployee = () => {
 }
 
 const updateEmployee = () => {
+
+    const employeeArrays = {
+        id:[],
+        name:[]
+    }
+
+    const employeeIdArray = employeeArrays.id;
+    const employeeNameArray = employeeArrays.name;
+
+    db.query(`SELECT id, CONCAT(first_name, " ", last_name) as full_name 
+    FROM employee;`, (err, results) => {
+        results.forEach(result => {
+            employeeIdArray.push(result.id)
+            employeeNameArray.push(result.full_name)
+        });
+    })
+    const roleArrays = {
+        id:[],
+        title:[]
+    }
+
+    const roleIdArray = roleArrays.id;
+    const roleTitleArray = roleArrays.title;
+
+
     const updateEmployeePrompt = [
         {
             type: `list`,
             name: `employee`,
+            message: `Which employees role would you like to update?`,
             choices: []
         },
         {
-            type: `input`,
+            type: `list`,
             name: `newRole`,
-            message: `Employee's role?`
+            message: `What's the new role?`,
+            choices: []
         }
     ]
 }
@@ -309,7 +283,6 @@ const menuPrompt = () => {
     inquirer
         .prompt(startPrompt)
         .then((result) => {
-            // console.log(result.action)
             switch (result.action) {
                 case `View all departments`:
                     viewDept();
