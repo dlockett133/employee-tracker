@@ -194,7 +194,7 @@ const addEmployee = () => {
         (err,results) => {
             results.forEach(result => {
             managerIdArray.push(result.id)
-            managerNameArray.push(result.first_name + " " + result.lastName)
+            managerNameArray.push(`${result.first_name} ${result.last_name}`)
         });
     })
 
@@ -231,7 +231,7 @@ const addEmployee = () => {
         let roleId = roleIdArray[i]
         
         let x = managerNameArray.indexOf(data.employeeManager);
-        let managerId = managerIdArray[i - 1]
+        let managerId = managerIdArray[x - 1]
 
         if (data.employeeManager === "None"){
             db.query(
@@ -249,18 +249,11 @@ const addEmployee = () => {
             )    
         } else {
             db.query(
-                `INSERT INTO employee (first_name, last_name, role_id, manager_id) 
-                SELECT * FROM (SELECT ?, ?, ?, ?) AS tmp 
-                WHERE NOT EXISTS (
-                SELECT first_name, last_name, role_id, manager_id 
-                FROM employee 
-                WHERE first_name = ? 
-                AND last_name = ? 
-                AND role_id = ? 
-                AND manager_id = ?
-                ) LIMIT 1;
-                `,[firstName, lastName, roleId, managerId])
+                `INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)`,
+                [firstName, lastName, roleId, managerId])
             }
+
+        menuPrompt();
     })
 }
 
