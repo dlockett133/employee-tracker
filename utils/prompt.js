@@ -220,7 +220,6 @@ const addEmployee = () => {
 }
 
 const updateEmployee = () => {
-
     const employeeArrays = {
         id:[],
         name:[]
@@ -229,37 +228,59 @@ const updateEmployee = () => {
     const employeeIdArray = employeeArrays.id;
     const employeeNameArray = employeeArrays.name;
 
-    db.query(`SELECT id, CONCAT(first_name, " ", last_name) as full_name 
-    FROM employee;`, (err, results) => {
-        results.forEach(result => {
-            employeeIdArray.push(result.id)
-            employeeNameArray.push(result.full_name)
-        });
-    })
     const roleArrays = {
         id:[],
         title:[]
     }
-
     const roleIdArray = roleArrays.id;
     const roleTitleArray = roleArrays.title;
 
+    db.query(`SELECT first_name, last_name, id FROM employee`, (err, results) => {
+       err ?
+        console.error(err) :
+        results.forEach((result) => {
+           employeeNameArray.push(`${result.first_name} ${result.last_name}`)
+           employeeIdArray.push(result.id)
+         })
+      
+     db.query(`SELECT id, title FROM role`, (err, results) => {
+       err?
+         console.error(err) :
+         results.forEach((result)=>{
+           roleIdArray.push(result.id)
+           roleTitleArray.push(result.title)
+         })
+       })
 
-    const updateEmployeePrompt = [
-        {
-            type: `list`,
-            name: `employee`,
-            message: `Which employees role would you like to update?`,
-            choices: []
-        },
-        {
-            type: `list`,
-            name: `newRole`,
-            message: `What's the new role?`,
-            choices: []
-        }
-    ]
-}
+   const updateEmployeePrompt = [
+     {
+        type: `list`,
+        name: `employee`,
+        message: `Which employee's role would you like to update?`,
+        choices: employeeNameArray
+     },
+     {
+       type: `list`,
+       name: `newRole`,
+       message: `What's the new role?`,
+       choices: roleTitleArray
+     }
+   ]
+   inquirer.prompt(updateEmployeePrompt)
+    .then((data) => {
+       let i = employeeNameArray.indexOf(data.employee);
+       let employeeId = employeeIdArray[i];
+
+       let x = roleTitleArray.indexOf(data.newRole);
+       let roleId = roleIdArray[x];
+
+       db.query(`UPDATE employee SET role_id = ? WHERE id = ?`, [roleId, employeeId])
+   
+       console.log(`The Employee named ${data.employee} has been updated to ${data.newRole}`)
+       menuPrompt()
+     }).catch(err => console.error(err))
+   })   
+   }
 
 const menuPrompt = () => {
     const startPrompt = [
@@ -303,7 +324,8 @@ const menuPrompt = () => {
                     addEmployee();
                     break;
                 case `Update an employee role`:
-                    console.log(result.action)
+                    updateEmployee()
+                    // updateRole();
                     break;
                 case `Quit`:
                     console.log(result.action)
