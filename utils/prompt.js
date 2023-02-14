@@ -280,7 +280,12 @@ const updateEmployee = () => {
        menuPrompt()
      }).catch(err => console.error(err))
    })   
-   }
+}
+
+const quitApp = () => {
+    console.log("You have now closed this application!")
+    process.exit()
+}
 
 const menuPrompt = () => {
     const startPrompt = [
@@ -328,9 +333,7 @@ const menuPrompt = () => {
                     // updateRole();
                     break;
                 case `Quit`:
-                    console.log(result.action)
-                    break;
-            
+                    process.exit()
                 default:
                     console.log("Invalid command")
                     break;
