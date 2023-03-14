@@ -343,6 +343,7 @@ const menuPrompt = () => {
                     break;
             }
         })
+        .catch(err => console.error(err))
 }   
 
 menuPrompt();
